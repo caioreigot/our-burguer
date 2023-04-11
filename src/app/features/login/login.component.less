@@ -1,0 +1,49 @@
+@import "/src/variables.less";
+
+main {
+  width: 550px;
+  height: 600px;
+  border: 4px solid @red;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.logo {
+  width: 180px;
+  height: 180px;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.title {
+  font-size: 48px;
+  color: @red;
+}
+
+.inputs-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 25px;
+  gap: 5px;
+
+  > input {
+    padding: 10px;
+    font-size: 20px;
+    border: 1px solid #000;
+  }
+
+  > button {
+    padding: 15px;
+    font-size: 18px;
+  }
+
+  .forgot-password {
+    margin-top: 10px;
+    text-align: center;
+  }
+}
