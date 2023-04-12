@@ -5,18 +5,40 @@
         <img src="assets/logo.png">
         <h3>Our Burguer</h3>
       </div>
-      <input class="search" type="text" placeholder="Busca">
-      <div class="user"></div>
+      <div>
+        <input #search class="search" type="text" placeholder="Busca">
+      </div>
+      <div>
+        <img routerLink="/cart" class="cart" src="assets/cart.svg" />
+        <img routerLink="/" class="profile-pic" src="assets/user-circle-outline.svg" />
+      </div>
     </header>
-    <div class="shop-window">
-      <div class="food-item">
-        <img src="https://burgerx.com.br/assets/img/galeria/burgers/x-bacon.jpg">
-        <div class="bottom-container">
-          <div class="food-information">
-            <span>Hamburguer X</span>
-            <span>R$ 5,98</span>
+
+    <div *ngIf="!detailsId" class="shop-window">
+      <h2 *ngIf="foodItemsFiltered.length == 0">
+        Não há resultados compatíveis com sua busca :/
+      </h2>
+      <app-food-item *ngFor="let item of foodItemsFiltered"
+        [id]="item.id"
+        [urlImage]="item.urlImage"
+        [title]="item.title"
+        [price]="item.price">
+      </app-food-item>
+    </div>
+
+    <!-- Só mostra se houver um ID na URL (detalhes do produto) -->
+    <div *ngIf="detailsId" class="details">
+      <a routerLink="/shop-window" class="back">Voltar</a>
+      <div class="container">
+        <img class="food-image" src="{{ itemToShowDetails.urlImage }}">
+        <div>
+          <div class="details-container">
+            <h1 class="title">{{ itemToShowDetails.title }}</h1>
+            <h2 class="kcal">{{ itemToShowDetails.kcal }} kcal</h2>
+            <span class="price">R$ {{ itemToShowDetails.price }}</span>
+            <p class="description">{{ itemToShowDetails.description }}</p>
           </div>
-          <button>Ver</button>
+          <button class="add-cart">Adicionar ao carrinho</button>
         </div>
       </div>
     </div>

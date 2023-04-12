@@ -3,10 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './features/login/login.component';
 import { ShopWindowComponent } from './features/shop-window/shop-window.component';
 import { PageNotFoundComponent } from './features/page-not-found/page-not-found.component';
+import { ForgotMyPasswordComponent } from './features/forgot-my-password/forgot-my-password.component';
+import { CartComponent } from './features/cart/cart.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: '', component: ShopWindowComponent },
+  { path: '', component: LoginComponent },
+  { path: 'shop-window', component: ShopWindowComponent },
+  { path: 'cart', component: CartComponent },
+  { path: 'forgot-password', component: ForgotMyPasswordComponent },
+  { path: 'shop-window/:id', component: ShopWindowComponent },
   { 
     path: '**',
     pathMatch: 'full', 
