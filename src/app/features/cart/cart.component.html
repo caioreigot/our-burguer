@@ -1,17 +1,38 @@
 <!-- TODO -->
 
+<img class="back-arrow" routerLink="/shop-window" src="assets/arrow-back-circle-outline.svg">
+
 <main>
-  <h1>Carrinho</h1>
+  <div>
+    <img class="cart" src="assets/cart.svg" />
+    <h1>Carrinho</h1>
+  </div>
   <table>
     <tr class="table-header">
       <th>Item</th>
       <th>Quantidade</th>
       <th>Valor</th>
     </tr>
+
+    <tr *ngFor="let cartItem of cartItems">
+      <td>{{ cartItem.name }}</td>
+      <td>{{ cartItem.amount }}x</td>
+      <td>R$ {{ cartItem.price }}</td>
+    </tr>
+
+    <tr class="no-items" *ngIf="cartItems.length === 0">
+      <h3>
+        Seu carrinho está vazio.
+      </h3>
+    </tr>
+
     <tr>
-      <td>Hamburguer</td>
-      <td>5</td>
-      <td>R$ 3.00</td>
+      <td colspan="2">Total</td>
+      <td class="total-value">R$ {{ total }}</td>
     </tr>
   </table>
+  <div class="buttons-container">
+    <button (click)="cartService.clearCart()">Limpar cesta</button>
+    <button>Finalizar pedido</button>
+  </div>
 </main>

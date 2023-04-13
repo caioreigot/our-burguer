@@ -26,21 +26,21 @@ header {
   padding: 15px 25px;
 
   background-color: #fff;
-  border-left: 2px solid @red;
-  border-right: 2px solid @red;
-  border-bottom: 2px solid @red;
+  border: 2px solid @red;
+  border-top: none;
+
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 
-  >div:nth-child(1) {
+  > div:nth-child(1) {
     width: 25%;
   }
 
-  >div:nth-child(2) {
+  > div:nth-child(2) {
     width: 50%;
   }
 
-  >div:nth-child(3) {
+  > div:nth-child(3) {
     display: flex;
     flex-direction: row;
     justify-content: end;
@@ -56,31 +56,37 @@ header {
     border-radius: 10px;
   }
 
+  .header-icons {
+    gap: 15px;
+  }
+
   .cart {
     cursor: pointer;
-    margin-right: 15px;
+    width: 50px;
+    height: 100%;
   }
 
   .profile-pic {
     cursor: pointer;
     width: 50px;
     height: 100%;
-    transform: scale(110%);
   }
 
   .logo-container {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: start;
     height: 100%;
-    gap: 10px;
+    gap: 15px;
 
-    >img {
+    .logo {
       height: 100%;
       transform: scale(110%);
+      object-fit: contain;
     }
 
-    >h3 {
+    > h3 {
       width: 100px;
     }
   }
@@ -125,7 +131,7 @@ header {
     border-radius: 8px;
     padding: 5px;
 
-    >div {
+    > div {
       display: flex;
       flex-direction: column;
       flex-grow: 1;
@@ -150,7 +156,7 @@ header {
     cursor: pointer;
     user-select: none;
     text-align: center;
-    padding: 15px;
+    padding: 10px 15px;
     font-size: 18px;
     background-color: rgb(240, 240, 240);
     border: 1px solid #000;
@@ -184,17 +190,17 @@ header {
     overflow: auto;
     padding-right: 10px;
 
-    >h1 {
+    > h1 {
       font-size: 2.2rem;
       font-weight: bold;
     }
 
-    >h2 {
+    > h2 {
       font-size: 1.5rem;
       font-weight: 500;
     }
 
-    >.price {
+    > .price {
       font-size: 1.2rem;
     }
   }
@@ -207,11 +213,29 @@ header {
 }
 
 @media screen and (max-width: 780px) {
+  header {
+    padding: 15px 20px;
+
+    .header-icons {
+      display: flex;
+      justify-content: end;
+      gap: 8px;
+
+      > img {
+        width: 30px;
+      }
+    }
+  }
+
   .details {
     padding: 10px 0;
     padding-right: 10px;
     justify-content: start;
     overflow: auto;
+
+    .add-cart {
+      width: 100%;
+    }
 
     .back {
       width: 100%;
@@ -221,13 +245,14 @@ header {
       max-height: fit-content;
       flex-direction: column;
 
-      >div {
+      > div {
         max-height: fit-content;
       }
     }
 
     .details-container {
       overflow: hidden;
+      padding: 0 5px;
     }
 
     .food-image {

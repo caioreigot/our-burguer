@@ -1,3 +1,4 @@
+import { CartService } from './../../services/cart.service';
 import { AfterViewInit, Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FoodItem } from 'src/app/models/FoodItem';
@@ -25,7 +26,7 @@ export class ShopWindowComponent implements AfterViewInit, OnInit {
   detailsId: number | null = null;
   itemToShowDetails: FoodItem = { id: 0, price: 0, name: "", urlImage: "", kcal: 0, description: "" };
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private cartService: CartService) {}
 
   ngOnInit(): void {
     this.detailsId = Number(this.route.snapshot.paramMap.get('id')) || null;
@@ -41,6 +42,15 @@ export class ShopWindowComponent implements AfterViewInit, OnInit {
     return this.foodItems.filter(food =>
       food.name.toLowerCase().includes(search.toLowerCase())
     );
+  }
+
+  addCart(item: FoodItem) {
+    this.cartService.addToCart({
+      id: item.id,
+      amount: 1,
+      name: item.name,
+      price: item.price
+    });
   }
 
   ngAfterViewInit() {
