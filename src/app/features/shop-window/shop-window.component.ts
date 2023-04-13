@@ -10,7 +10,7 @@ import { FoodItem } from 'src/app/models/FoodItem';
 export class ShopWindowComponent implements AfterViewInit, OnInit {
   foodItems: FoodItem[] = [
     { id: 1, urlImage: "https://burgerx.com.br/assets/img/galeria/burgers/x-bacon.jpg", price: 5.98, title: "Hamburguer A", kcal: 612, description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam voluptatum ab velit ullam necessitatibus molestias adipisci excepturi incidunt culpa natus, possimus architecto! Suscipit, eos. Consequuntur obcaecati libero sed minus ad est quos consectetur in neque ab doloremque nemo eveniet sequi necessitatibus dolores non molestias explicabo officia qui ut, iure voluptatum? Id, atque unde architecto eos tempora voluptas saepe molestiae possimus ullam earum aut sapiente dolore est eius nesciunt. Numquam non perspiciatis, vero, enim, autem impedit nihil eaque unde accusantium incidunt voluptatem iste nobis. Fugit hic quaerat ullam maiores unde placeat." },
-    { id: 2, urlImage: "https://burgerx.com.br/assets/img/galeria/burgers/x-bacon.jpg", price: 5.98, title: "Combo B", kcal: 612, description: "" },
+    { id: 2, urlImage: "https://burgerx.com.br/assets/img/galeria/burgers/x-bacon.jpg", price: 5.98, title: "Combo Nosso", kcal: 612, description: "" },
     { id: 3, urlImage: "https://burgerx.com.br/assets/img/galeria/burgers/x-bacon.jpg", price: 5.98, title: "Hamburguer C", kcal: 612, description: "" },
     { id: 4, urlImage: "https://burgerx.com.br/assets/img/galeria/burgers/x-bacon.jpg", price: 5.98, title: "Sorvete D", kcal: 612, description: "" },
     { id: 5, urlImage: "https://burgerx.com.br/assets/img/galeria/burgers/x-bacon.jpg", price: 5.98, title: "Hamburguer E", kcal: 612, description: "" },
@@ -25,7 +25,7 @@ export class ShopWindowComponent implements AfterViewInit, OnInit {
   detailsId: number | null = null;
   itemToShowDetails: FoodItem = { id: 0, price: 0, title: "", urlImage: "", kcal: 0, description: "" };
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.detailsId = Number(this.route.snapshot.paramMap.get('id')) || null;
