@@ -8,6 +8,6 @@ import { Component, Input } from '@angular/core';
 export class FoodItemComponent {
   @Input() id: number = 0;
   @Input() urlImage: string = "";
-  @Input() title: string = "";
+  @Input() name: string = "";
   @Input() price: number = 0;
 }

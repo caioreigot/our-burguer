@@ -9,12 +9,12 @@ import { FoodItem } from 'src/app/models/FoodItem';
 })
 export class ShopWindowComponent implements AfterViewInit, OnInit {
   foodItems: FoodItem[] = [
-    { id: 1, urlImage: "https://burgerx.com.br/assets/img/galeria/burgers/x-bacon.jpg", price: 5.98, title: "Hamburguer A", kcal: 612, description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam voluptatum ab velit ullam necessitatibus molestias adipisci excepturi incidunt culpa natus, possimus architecto! Suscipit, eos. Consequuntur obcaecati libero sed minus ad est quos consectetur in neque ab doloremque nemo eveniet sequi necessitatibus dolores non molestias explicabo officia qui ut, iure voluptatum? Id, atque unde architecto eos tempora voluptas saepe molestiae possimus ullam earum aut sapiente dolore est eius nesciunt. Numquam non perspiciatis, vero, enim, autem impedit nihil eaque unde accusantium incidunt voluptatem iste nobis. Fugit hic quaerat ullam maiores unde placeat." },
-    { id: 2, urlImage: "https://burgerx.com.br/assets/img/galeria/burgers/x-bacon.jpg", price: 5.98, title: "Combo Nosso", kcal: 612, description: "" },
-    { id: 3, urlImage: "https://burgerx.com.br/assets/img/galeria/burgers/x-bacon.jpg", price: 5.98, title: "Hamburguer C", kcal: 612, description: "" },
-    { id: 4, urlImage: "https://burgerx.com.br/assets/img/galeria/burgers/x-bacon.jpg", price: 5.98, title: "Sorvete D", kcal: 612, description: "" },
-    { id: 5, urlImage: "https://burgerx.com.br/assets/img/galeria/burgers/x-bacon.jpg", price: 5.98, title: "Hamburguer E", kcal: 612, description: "" },
-    { id: 6, urlImage: "https://burgerx.com.br/assets/img/galeria/burgers/x-bacon.jpg", price: 5.98, title: "Torta F", kcal: 612, description: "" },
+    { id: 1, urlImage: "/assets/Comuna Burguer.png", price: 10.00, name: "Comuna Burger", kcal: 475, description: "Este hambúrguer é composto por um pão macio e fresquinho, uma suculenta carne bovina, queijo cheddar derretido, cebola caramelizada e um molho especial de maionese com mostarda. Todos os ingredientes são cuidadosamente selecionados para garantir o melhor sabor e qualidade." },
+    { id: 2, urlImage: "/assets/Sundae da Coletividade.png", price: 7.00, name: "Sundae da Coletividade", kcal: 325, description: " Este sundae representa a ideia de que juntos somos mais fortes. É feito com uma bola de sorvete de creme, fatias de banana fresca, calda de caramelo quente e chantilly. Todos os ingredientes são cuidadosamente selecionados para oferecer uma sobremesa deliciosa e compartilhável." },
+    { id: 3, urlImage: "/assets/Igualdade Burguer.png", price: 12.00, name: "Igualdade Burger", kcal: 530, description: "Este hambúrguer é um verdadeiro exemplo da colaboração entre todos os membros da comunidade. Ele é feito com um pão artesanal crocante, carne bovina suculenta, alface fresca, tomate maduro e um molho especial de maionese com ervas finas. Cada ingrediente é escolhido com cuidado e amor para oferecer um sabor incrível." },
+    { id: 4, urlImage: "/assets/Brownie da Solidariedade.png", price: 9.00, name: "Brownie da Solidariedade", kcal: 345, description: "Este brownie é feito com chocolate amargo de alta qualidade e servido quente com uma bola de sorvete de baunilha cremoso. É a combinação perfeita de texturas e sabores e representa a importância da solidariedade em nossa comunidade." },
+    { id: 5, urlImage: "/assets/Fraternidade Burger.png", price: 14.00, name: "Fraternidade Burger", kcal: 725, description: "Este hambúrguer tem um pão macio e fresquinho, uma generosa porção de carne bovina suculenta, queijo derretido, alface crocante, tomate maduro e um molho especial de maionese com alho. Cada ingrediente é escolhido com cuidado para oferecer um sabor incrível e criar uma experiência fraterna e acolhedora." },
+    { id: 6, urlImage: "/assets/Milkshake da União.png", price: 12.00, name: "Milkshake da União", kcal: 450, description: "Este milkshake é feito com morangos frescos, sorvete de baunilha e leite gelado. É uma bebida cremosa e refrescante que representa a união de todos os membros da comunidade. É servido com chantilly por cima para um toque extra de indulgência." },
   ];
 
   foodItemsFiltered: FoodItem[] = this.foodItems;
@@ -23,7 +23,7 @@ export class ShopWindowComponent implements AfterViewInit, OnInit {
   search: ElementRef<HTMLInputElement> | null = null;
 
   detailsId: number | null = null;
-  itemToShowDetails: FoodItem = { id: 0, price: 0, title: "", urlImage: "", kcal: 0, description: "" };
+  itemToShowDetails: FoodItem = { id: 0, price: 0, name: "", urlImage: "", kcal: 0, description: "" };
 
   constructor(private route: ActivatedRoute) { }
 
@@ -39,7 +39,7 @@ export class ShopWindowComponent implements AfterViewInit, OnInit {
 
   filterFoods(search: string) {
     return this.foodItems.filter(food =>
-      food.title.toLowerCase().includes(search.toLowerCase())
+      food.name.toLowerCase().includes(search.toLowerCase())
     );
   }
 

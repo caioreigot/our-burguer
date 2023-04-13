@@ -21,7 +21,8 @@
       <app-food-item *ngFor="let item of foodItemsFiltered"
         [id]="item.id"
         [urlImage]="item.urlImage"
-        [title]="item.title"
+        [name]="item.name"
+        [title]="item.description"
         [price]="item.price">
       </app-food-item>
     </div>
@@ -33,7 +34,7 @@
         <img class="food-image" src="{{ itemToShowDetails.urlImage }}">
         <div>
           <div class="details-container">
-            <h1 class="title">{{ itemToShowDetails.title }}</h1>
+            <h1 class="name">{{ itemToShowDetails.name }}</h1>
             <h2 class="kcal">{{ itemToShowDetails.kcal }} kcal</h2>
             <span class="price">R$ {{ itemToShowDetails.price }}</span>
             <p class="description">{{ itemToShowDetails.description }}</p>

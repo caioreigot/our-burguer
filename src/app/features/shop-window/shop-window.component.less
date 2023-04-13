@@ -29,16 +29,18 @@ header {
   border-left: 2px solid @red;
   border-right: 2px solid @red;
   border-bottom: 2px solid @red;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 
-  > div:nth-child(1) {
+  >div:nth-child(1) {
     width: 25%;
   }
 
-  > div:nth-child(2) {
+  >div:nth-child(2) {
     width: 50%;
   }
 
-  > div:nth-child(3) {
+  >div:nth-child(3) {
     display: flex;
     flex-direction: row;
     justify-content: end;
@@ -51,6 +53,7 @@ header {
     text-align: center;
     padding: 5px;
     font-size: 18px;
+    border-radius: 10px;
   }
 
   .cart {
@@ -72,12 +75,12 @@ header {
     height: 100%;
     gap: 10px;
 
-    > img {
+    >img {
       height: 100%;
       transform: scale(110%);
     }
 
-    > h3 {
+    >h3 {
       width: 100px;
     }
   }
@@ -104,6 +107,10 @@ header {
     align-self: flex-start;
     margin-bottom: 10px;
     width: 180px;
+    background-color: @red;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
   }
 
   .container {
@@ -118,7 +125,7 @@ header {
     border-radius: 8px;
     padding: 5px;
 
-    > div {
+    >div {
       display: flex;
       flex-direction: column;
       flex-grow: 1;
@@ -138,7 +145,8 @@ header {
     text-align: justify;
   }
 
-  a, .add-cart {
+  a,
+  .add-cart {
     cursor: pointer;
     user-select: none;
     text-align: center;
@@ -146,9 +154,10 @@ header {
     font-size: 18px;
     background-color: rgb(240, 240, 240);
     border: 1px solid #000;
-    border-radius: 2px;
+    border-radius: 5px;
     text-decoration: none;
     color: #000;
+    font-weight: bold;
 
     &:hover {
       filter: brightness(95%);
@@ -175,17 +184,17 @@ header {
     overflow: auto;
     padding-right: 10px;
 
-    > h1 {
+    >h1 {
       font-size: 2.2rem;
       font-weight: bold;
     }
 
-    > h2 {
+    >h2 {
       font-size: 1.5rem;
       font-weight: 500;
     }
 
-    > .price {
+    >.price {
       font-size: 1.2rem;
     }
   }
@@ -212,7 +221,7 @@ header {
       max-height: fit-content;
       flex-direction: column;
 
-      > div {
+      >div {
         max-height: fit-content;
       }
     }
