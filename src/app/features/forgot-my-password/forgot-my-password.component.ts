@@ -15,9 +15,9 @@ export class ForgotMyPasswordComponent {
   sendEmail(email: string) {
     // veja se email.value é um email válido com regex
     if (this.regexEmail.test(email)) {
-      this.snackbarService.showMessage('Email enviado com sucesso!');
+      this.snackbarService.showMessage('Email para redefinição de senha enviado com sucesso!');
     } else {
-      this.snackbarService.showMessage('Email inválido!', true);
+      this.snackbarService.showMessage('Email inválido', true);
     }
   }
 }
