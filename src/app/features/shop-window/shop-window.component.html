@@ -34,9 +34,11 @@
         <img class="food-image" src="{{ itemToShowDetails.urlImage }}">
         <div>
           <div class="details-container">
-            <h1 class="name">{{ itemToShowDetails.name }}</h1>
-            <h2 class="kcal">{{ itemToShowDetails.kcal }} kcal</h2>
-            <span class="price">R$ {{ itemToShowDetails.price }}</span>
+            <div>
+              <h1 class="name">{{ itemToShowDetails.name }}</h1>
+              <h2 class="kcal">{{ itemToShowDetails.kcal }} kcal</h2>
+              <span class="price">R$ {{ itemToShowDetails.price }}</span>
+            </div>
             <p class="description">{{ itemToShowDetails.description }}</p>
           </div>
           <button class="add-cart" (click)="addCart(itemToShowDetails)">
