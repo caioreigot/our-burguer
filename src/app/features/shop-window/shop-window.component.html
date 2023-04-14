@@ -29,7 +29,9 @@
 
     <!-- Só mostra se houver um ID na URL (detalhes do produto) -->
     <div *ngIf="detailsId" class="details">
-      <a routerLink="/shop-window" class="back">Voltar</a>
+      <a routerLink="/shop-window" class="back">
+        Voltar
+      </a>
       <div class="container">
         <img class="food-image" src="{{ itemToShowDetails.urlImage }}">
         <div>
