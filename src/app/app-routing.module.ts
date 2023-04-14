@@ -5,9 +5,11 @@ import { ShopWindowComponent } from './features/shop-window/shop-window.componen
 import { PageNotFoundComponent } from './features/page-not-found/page-not-found.component';
 import { ForgotMyPasswordComponent } from './features/forgot-my-password/forgot-my-password.component';
 import { CartComponent } from './features/cart/cart.component';
+import { RegisterComponent } from './features/register/register.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'shop-window', component: ShopWindowComponent },
   { path: 'cart', component: CartComponent },
   { path: 'forgot-password', component: ForgotMyPasswordComponent },

@@ -8,6 +8,8 @@ import { PageNotFoundComponent } from './features/page-not-found/page-not-found.
 import { FoodItemComponent } from './components/food-item/food-item.component';
 import { ForgotMyPasswordComponent } from './features/forgot-my-password/forgot-my-password.component';
 import { CartComponent } from './features/cart/cart.component';
+import { UseInputValueOnEnterDirective } from './directives/use-input-value-on-enter.directive';
+import { RegisterComponent } from './features/register/register.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { CartComponent } from './features/cart/cart.component';
     FoodItemComponent,
     ForgotMyPasswordComponent,
     CartComponent,
+    UseInputValueOnEnterDirective,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

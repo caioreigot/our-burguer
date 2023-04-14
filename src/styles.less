@@ -20,3 +20,33 @@ body {
   align-items: center;
   background-color: @white;
 }
+
+#snackbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  
+  max-height: 200px;
+  min-width: 400px;
+  max-width: 600px;
+  padding: 20px;
+  
+  text-align: center;
+  font-size: 1.1rem;
+  color: @white;
+  
+  border-radius: 5px;
+
+  &.success { background-color: #2e9a56; }
+  &.error { background-color: #de4040; }
+}
+
+.hidden {
+  display: none !important;
+}

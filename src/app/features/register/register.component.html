@@ -1,0 +1,60 @@
+<img class="back-arrow" routerLink="/" src="assets/arrow-back-circle-outline.svg">
+
+<form (submit)="onSubmit(
+    name.value,
+    email.value,
+    password.value,
+    confirmPassword.value,
+    cpf.value,
+    phone.value
+  )"
+>
+  <h1 class="title">Cadastro</h1>
+  <h4>Preencha os dados abaixo para se cadastrar</h4>
+
+  <div>
+    <label for="name">
+      Nome:
+    </label>
+    <input #name id="name" type="text" required>
+  </div>
+
+  <div>
+    <label for="email">
+      E-mail:
+    </label>
+    <input #email id="email" type="text" [pattern]="emailPattern" required>
+  </div>
+
+  <div>
+    <label for="password">
+      Senha:
+    </label>
+    <input #password id="password" type="password" minlength="6" required>
+  </div>
+
+  <div>
+    <label for="confirm-password">
+      Confirmar senha:
+    </label>
+    <input #confirmPassword id="confirm-password" type="password" minlength="6" required>
+  </div>
+
+  <div>
+    <label for="cpf">
+      CPF:
+    </label>
+    <input #cpf id="cpf" type="text" [pattern]="cpfPattern" required>
+  </div>
+
+  <div>
+    <label for="phone">
+      Telefone:
+    </label>
+    <input #phone id="phone" type="text" [pattern]="phonePattern" required>
+  </div>
+
+  <button class="confirm">
+    Confirmar
+  </button>
+</form>

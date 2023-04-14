@@ -2,6 +2,8 @@ import { CartService } from './../../services/cart.service';
 import { AfterViewInit, Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FoodItem } from 'src/app/models/FoodItem';
+import dbFake from '../../dbFake.json';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-shop-window',
@@ -9,14 +11,8 @@ import { FoodItem } from 'src/app/models/FoodItem';
   styleUrls: ['./shop-window.component.less']
 })
 export class ShopWindowComponent implements AfterViewInit, OnInit {
-  foodItems: FoodItem[] = [
-    { id: 1, urlImage: "/assets/Comuna Burguer.png", price: 10.00, name: "Comuna Burger", kcal: 475, description: "Este hambúrguer é composto por um pão macio e fresquinho, uma suculenta carne bovina, queijo cheddar derretido, cebola caramelizada e um molho especial de maionese com mostarda. Todos os ingredientes são cuidadosamente selecionados para garantir o melhor sabor e qualidade." },
-    { id: 2, urlImage: "/assets/Sundae da Coletividade.png", price: 7.00, name: "Sundae da Coletividade", kcal: 325, description: " Este sundae representa a ideia de que juntos somos mais fortes. É feito com uma bola de sorvete de creme, fatias de banana fresca, calda de caramelo quente e chantilly. Todos os ingredientes são cuidadosamente selecionados para oferecer uma sobremesa deliciosa e compartilhável." },
-    { id: 3, urlImage: "/assets/Igualdade Burguer.png", price: 12.00, name: "Igualdade Burger", kcal: 530, description: "Este hambúrguer é um verdadeiro exemplo da colaboração entre todos os membros da comunidade. Ele é feito com um pão artesanal crocante, carne bovina suculenta, alface fresca, tomate maduro e um molho especial de maionese com ervas finas. Cada ingrediente é escolhido com cuidado e amor para oferecer um sabor incrível." },
-    { id: 4, urlImage: "/assets/Brownie da Solidariedade.png", price: 9.00, name: "Brownie da Solidariedade", kcal: 345, description: "Este brownie é feito com chocolate amargo de alta qualidade e servido quente com uma bola de sorvete de baunilha cremoso. É a combinação perfeita de texturas e sabores e representa a importância da solidariedade em nossa comunidade." },
-    { id: 5, urlImage: "/assets/Fraternidade Burger.png", price: 14.00, name: "Fraternidade Burger", kcal: 725, description: "Este hambúrguer tem um pão macio e fresquinho, uma generosa porção de carne bovina suculenta, queijo derretido, alface crocante, tomate maduro e um molho especial de maionese com alho. Cada ingrediente é escolhido com cuidado para oferecer um sabor incrível e criar uma experiência fraterna e acolhedora." },
-    { id: 6, urlImage: "/assets/Milkshake da União.png", price: 12.00, name: "Milkshake da União", kcal: 450, description: "Este milkshake é feito com morangos frescos, sorvete de baunilha e leite gelado. É uma bebida cremosa e refrescante que representa a união de todos os membros da comunidade. É servido com chantilly por cima para um toque extra de indulgência." },
-  ];
+  
+  foodItems: FoodItem[] = dbFake.fake_data;
 
   foodItemsFiltered: FoodItem[] = this.foodItems;
 
@@ -26,7 +22,11 @@ export class ShopWindowComponent implements AfterViewInit, OnInit {
   detailsId: number | null = null;
   itemToShowDetails: FoodItem = { id: 0, price: 0, name: "", urlImage: "", kcal: 0, description: "" };
 
-  constructor(private route: ActivatedRoute, private cartService: CartService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private cartService: CartService,
+    private snackbarService: SnackbarService
+  ) {}
 
   ngOnInit(): void {
     this.detailsId = Number(this.route.snapshot.paramMap.get('id')) || null;
@@ -51,6 +51,8 @@ export class ShopWindowComponent implements AfterViewInit, OnInit {
       name: item.name,
       price: item.price
     });
+
+    this.snackbarService.showMessage(`${item.name} adicionado ao carrinho.`);
   }
 
   ngAfterViewInit() {
