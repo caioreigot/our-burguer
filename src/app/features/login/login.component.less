@@ -56,15 +56,24 @@ main {
   }
 
   .enter, .register {
+    cursor: pointer;
     user-select: none;
     text-align: center;
     padding: 15px;
     font-size: 18px;
-    background-color: rgb(240, 240, 240);
-    color: #000;
-    border: 1px solid #000;
-    border-radius: 2px;
+    background-color: @red;
+    border-radius: 5px;
     text-decoration: none;
+    color: @white;
+    font-weight: bold;
+
+    &:hover {
+      filter: brightness(95%);
+    }
+
+    &:active {
+      filter: brightness(90%);
+    }
   }
 
   .enter:hover, .register:hover {
