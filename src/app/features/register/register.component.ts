@@ -28,17 +28,17 @@ export class RegisterComponent {
     
     if (!regexEmail.test(email)) {
       this.snackbarService.showMessage("O e-mail fornecido não é valido");
-      return;
+      return false;
     }
 
     if (!regexCpf.test(cpf)) {
       this.snackbarService.showMessage("O CPF fornecido não é valido");
-      return;
+      return false;
     }
 
     if (!regexPhone.test(phone)) {
       this.snackbarService.showMessage("O telefone fornecido não é valido");
-      return;
+      return false;
     }
 
     if (confirmPassword !== password) {
@@ -46,6 +46,7 @@ export class RegisterComponent {
       return false;
     }
 
+    this.snackbarService.showMessage("Cadastro realizado com sucesso!");
     return false;
   }
 }
