@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
@@ -12,7 +13,10 @@ export class RegisterComponent {
   cpfPattern = "^[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}$";
   phonePattern = "^[(]?[0-9]{2}[)]?[ ]?[0-9]{4,5}[-]?[0-9]{4}$";
 
-  constructor(private snackbarService: SnackbarService) {}
+  constructor(
+    private snackbarService: SnackbarService,
+    private http: HttpClient
+  ) {}
 
   onSubmit(
     name: string,
@@ -45,6 +49,18 @@ export class RegisterComponent {
       this.snackbarService.showMessage("As senhas não conferem", true);
       return false;
     }
+
+    const user = {
+      name,
+      email,
+      password,
+      cpf,
+      phone
+    }
+
+    this.http.post("http://localhost:8080/user", user).subscribe((response: any) => {
+      console.log(response);
+    })
 
     this.snackbarService.showMessage("Cadastro realizado com sucesso!");
     return false;
