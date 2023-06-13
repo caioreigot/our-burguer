@@ -31,17 +31,17 @@ export class RegisterComponent {
     const regexPhone = new RegExp(this.phonePattern);
     
     if (!regexEmail.test(email)) {
-      this.snackbarService.showMessage("O e-mail fornecido não é valido");
+      this.snackbarService.showMessage("O e-mail fornecido não é valido", true);
       return false;
     }
 
     if (!regexCpf.test(cpf)) {
-      this.snackbarService.showMessage("O CPF fornecido não é valido");
+      this.snackbarService.showMessage("O CPF fornecido não é valido", true);
       return false;
     }
 
     if (!regexPhone.test(phone)) {
-      this.snackbarService.showMessage("O telefone fornecido não é valido");
+      this.snackbarService.showMessage("O telefone fornecido não é valido", true);
       return false;
     }
 
@@ -58,11 +58,15 @@ export class RegisterComponent {
       phone
     }
 
-    this.http.post("http://localhost:8080/user", user).subscribe((response: any) => {
-      console.log(response);
-    })
+    this.http.post("http://localhost:8080/user", user, { observe: 'response' }).subscribe(
+      (response: any) => {
+        this.snackbarService.showMessage(response.body.message, false);
+      },
+      (response: any) => {
+        this.snackbarService.showMessage(response.error.message, true);
+      }
+    );
 
-    this.snackbarService.showMessage("Cadastro realizado com sucesso!");
     return false;
   }
 }

@@ -1,19 +1,21 @@
 <main>
-  
   <div class="logo-container">
     <img class="logo" src="../assets/logo.png">
     <h1 class="title">Our Burguer</h1>
   </div>
   
   <div class="inputs-container">
-    <input type="text" placeholder="E-mail">
-    <input type="password" placeholder="Senha">
-    <a class="enter" routerLink="shop-window">Entrar</a>
-    <a class="forgot-password" routerLink="/forgot-password">Esqueci minha senha</a>
+    <input #email type="text" placeholder="E-mail">
+    <input #password type="password" placeholder="Senha">
+    <a class="enter" (click)="login(email.value, password.value)">
+      Entrar
+    </a>
+    <a class="forgot-password" routerLink="/forgot-password">
+      Esqueci minha senha
+    </a>
     <div class="divider"></div>
     <a class="register" routerLink="register">
       Cadastrar
     </a>
   </div>
-
 </main>
