@@ -58,14 +58,14 @@ export class RegisterComponent {
       phone
     }
 
-    this.http.post("http://localhost:8080/user", user, { observe: 'response' }).subscribe(
-      (response: any) => {
+    this.http.post("register", user, { observe: 'response' }).subscribe({
+      next: (response: any) => {
         this.snackbarService.showMessage(response.body.message, false);
       },
-      (response: any) => {
+      error: (response: any) => {
         this.snackbarService.showMessage(response.error.message, true);
       }
-    );
+    });
 
     return false;
   }

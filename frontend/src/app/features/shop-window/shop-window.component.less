@@ -73,6 +73,14 @@ header {
     height: 100%;
   }
 
+  .username {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: @red;
+  }
+
   .logo-container {
     display: flex;
     flex-direction: row;
@@ -211,6 +219,14 @@ header {
 
     > .price {
       font-size: 1.2rem;
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  header {
+    .header-icons > .username {
+      display: none;
     }
   }
 }

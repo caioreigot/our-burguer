@@ -10,7 +10,11 @@
       </div>
       <div class="header-icons">
         <img routerLink="/cart" class="cart" src="assets/cart.svg" />
-        <img routerLink="/" class="profile-pic" src="assets/user-circle-outline.svg" />
+        <img class="profile-pic"
+          routerLink="/"
+          (click)="localStorageService.clearToken()"
+          src="assets/user-circle-outline.svg" />
+        <h2 class="username">{{ localStorageService.getName() }}</h2>
       </div>
     </header>
 
@@ -20,8 +24,8 @@
       </h2>
       <app-food-item *ngFor="let item of foodItemsFiltered"
         [id]="item.id"
-        [urlImage]="item.urlImage"
-        [name]="item.name"
+        [urlImage]="item.imageUrl"
+        [name]="item.title"
         [title]="item.description"
         [price]="item.price">
       </app-food-item>
@@ -33,11 +37,11 @@
         Voltar
       </a>
       <div class="container">
-        <img class="food-image" src="{{ itemToShowDetails.urlImage }}">
+        <img class="food-image" src="{{ itemToShowDetails.imageUrl }}">
         <div>
           <div class="details-container">
             <div>
-              <h1 class="name">{{ itemToShowDetails.name }}</h1>
+              <h1 class="name">{{ itemToShowDetails.title }}</h1>
               <h2 class="kcal">{{ itemToShowDetails.kcal }} kcal</h2>
               <span class="price">R$ {{ itemToShowDetails.price }}</span>
             </div>

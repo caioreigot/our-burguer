@@ -1,7 +1,7 @@
 export interface FoodItem {
   id: number;
-  urlImage: string;
-  name: string;
+  imageUrl: string;
+  title: string;
   price: number;
   kcal: number;
   description: string;

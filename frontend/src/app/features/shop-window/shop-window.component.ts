@@ -1,9 +1,10 @@
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { CartService } from './../../services/cart.service';
 import { AfterViewInit, Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FoodItem } from 'src/app/models/FoodItem';
-import dbFake from '../../dbFake.json';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-shop-window',
@@ -12,23 +13,43 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 })
 export class ShopWindowComponent implements AfterViewInit, OnInit {
   
-  foodItems: FoodItem[] = dbFake.fake_data;
-
+  foodItems: FoodItem[] = [];
   foodItemsFiltered: FoodItem[] = this.foodItems;
 
   @ViewChild('search')
   search: ElementRef<HTMLInputElement> | null = null;
 
   detailsId: number | null = null;
-  itemToShowDetails: FoodItem = { id: 0, price: 0, name: "", urlImage: "", kcal: 0, description: "" };
+  itemToShowDetails: FoodItem = { id: 0, price: 0, title: "", imageUrl: "", kcal: 0, description: "" };
 
   constructor(
     private route: ActivatedRoute,
     private cartService: CartService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    public localStorageService: LocalStorageService,
+    private http: HttpClient
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.http.get("product/list").subscribe({
+      next: (response: any) => {
+        this.foodItems = response;
+        this.foodItemsFiltered = this.filterFoods("");
+      }
+    });
+  }
+
+  ngAfterViewInit() {
+    const searchInput = this.search?.nativeElement;
+    if (!searchInput) return;
+
+    // Filtrando o array de comidas de acordo com a pesquisa do usuário
+    searchInput.onkeyup = (e: any) => {
+      this.foodItemsFiltered = this.filterFoods(e.target.value);
+    }
+  }
+
+  showDetailsIfUrlHasId() {
     this.detailsId = Number(this.route.snapshot.paramMap.get('id')) || null;
     if (!this.detailsId) return;
 
@@ -38,9 +59,9 @@ export class ShopWindowComponent implements AfterViewInit, OnInit {
     this.itemToShowDetails = item;
   }
 
-  filterFoods(search: string) {
+  filterFoods(search: string): FoodItem[] {
     return this.foodItems.filter(food =>
-      food.name.toLowerCase().includes(search.toLowerCase())
+      food.title.toLowerCase().includes(search.toLowerCase())
     );
   }
 
@@ -48,18 +69,10 @@ export class ShopWindowComponent implements AfterViewInit, OnInit {
     this.cartService.addToCart({
       id: item.id,
       amount: 1,
-      name: item.name,
+      name: item.title,
       price: item.price
     });
 
-    this.snackbarService.showMessage(`${item.name} adicionado ao carrinho.`);
-  }
-
-  ngAfterViewInit() {
-    const searchInput = this.search?.nativeElement;
-    if (!searchInput) return;
-
-    // Filtrando o array de comidas de acordo com a pesquisa do usuário
-    searchInput.onkeyup = (e: any) => this.foodItemsFiltered = this.filterFoods(e.target.value);
+    this.snackbarService.showMessage(`${item.title} adicionado ao carrinho.`);
   }
 }

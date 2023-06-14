@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './features/login/login.component';
@@ -11,6 +11,7 @@ import { ForgotMyPasswordComponent } from './features/forgot-my-password/forgot-
 import { CartComponent } from './features/cart/cart.component';
 import { UseInputValueOnEnterDirective } from './directives/use-input-value-on-enter.directive';
 import { RegisterComponent } from './features/register/register.component';
+import { BaseUrlHttpInterceptor } from './interceptors/BaseUrlHttpInterceptor';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,9 @@ import { RegisterComponent } from './features/register/register.component';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: BaseUrlHttpInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
