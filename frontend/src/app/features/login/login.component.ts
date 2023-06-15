@@ -27,9 +27,6 @@ export class LoginComponent implements OnInit {
       next: (response: any) => {
         this.localStorageService.setName(response.name);
         this.router.navigate(['/shop-window']);
-      },
-      error: (response: any) => {
-        this.snackbarService.showMessage(response.error, true);
       }
     });
   }
@@ -43,7 +40,13 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/shop-window']);
         },
         error: (response: any) => {
-          this.snackbarService.showMessage(response.error, true);
+          let error = response.error;
+          
+          if (!response.error || response.error instanceof Object) {
+            error = "Ops! Ocorreu um erro desconhecido.";
+          }
+          
+          this.snackbarService.showMessage(error, true);
         }
       });
   }

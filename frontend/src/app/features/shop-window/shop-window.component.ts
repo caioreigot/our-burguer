@@ -34,7 +34,8 @@ export class ShopWindowComponent implements AfterViewInit, OnInit {
     this.http.get("product/list").subscribe({
       next: (response: any) => {
         this.foodItems = response;
-        this.foodItemsFiltered = this.filterFoods("");
+        this.foodItemsFiltered = response;
+        this.showDetailsIfUrlHasId();
       }
     });
   }
@@ -53,10 +54,12 @@ export class ShopWindowComponent implements AfterViewInit, OnInit {
     this.detailsId = Number(this.route.snapshot.paramMap.get('id')) || null;
     if (!this.detailsId) return;
 
-    const item = this.foodItems.find(food => food.id == this.detailsId);
-    if (!item) return;
+    // const item = this.foodItems.find(food => food.id == this.detailsId);
+    // if (!item) return;
 
-    this.itemToShowDetails = item;
+    this.http.get(`product/${this.detailsId}`).subscribe((response: any) => {
+      this.itemToShowDetails = response;
+    });
   }
 
   filterFoods(search: string): FoodItem[] {
@@ -74,5 +77,10 @@ export class ShopWindowComponent implements AfterViewInit, OnInit {
     });
 
     this.snackbarService.showMessage(`${item.title} adicionado ao carrinho.`);
+  }
+
+  logout() {
+    this.localStorageService.clearToken();
+    this.cartService.clearCart();
   }
 }

@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -12,15 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ourburguer.backend.dto.UserDTO;
+import com.ourburguer.backend.dto.ProductDTO;
 import com.ourburguer.backend.infra.ConnectionFactory;
-import com.ourburguer.backend.utils.KeyValue;
-import com.ourburguer.backend.utils.Utils;
 
 @CrossOrigin(
   origins = "http://localhost:4200",
@@ -41,27 +37,52 @@ public class ProductController {
       stmt = con.prepareStatement("SELECT * FROM product");
       ResultSet rs = stmt.executeQuery();
 
-      List<HashMap<String, String>> products = new ArrayList<>();
+      List<ProductDTO> products = new ArrayList<>();
       
       while (rs.next()) {
+        int id = rs.getInt(1);
         String imageUrl = rs.getString("imageUrl");
         String title = rs.getString("title");
-        String kcal = rs.getString("kcal");
-        String price = rs.getString("price");
+        int kcal = rs.getInt("kcal");
+        float price = rs.getFloat("price");
         String description = rs.getString("description");
 
-        HashMap<String, String> product = Utils.createHashMap(
-          new KeyValue("imageUrl", imageUrl),
-          new KeyValue("title", title),
-          new KeyValue("kcal", kcal),
-          new KeyValue("price", price),
-          new KeyValue("description", description)
-        );
+        ProductDTO product = new ProductDTO(id, imageUrl, title, price, kcal, description);
 
         products.add(product);
       }
 
       return new ResponseEntity<>(products, HttpStatus.OK);
+    } catch(Exception error) {
+      return new ResponseEntity<>(error.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @GetMapping("{id}")
+  @ResponseBody
+  public ResponseEntity<?> getById(@PathVariable int id) {
+    try {
+      Connection con = ConnectionFactory.connect();
+      PreparedStatement stmt;
+
+      stmt = con.prepareStatement("SELECT * FROM product WHERE id = ?");
+      stmt.setInt(1, id);
+      ResultSet rs = stmt.executeQuery();
+      
+      if (rs.next()) {
+        int idResult = rs.getInt(1);
+        String imageUrl = rs.getString("imageUrl");
+        String title = rs.getString("title");
+        int kcal = rs.getInt("kcal");
+        float price = rs.getFloat("price");
+        String description = rs.getString("description");
+
+        ProductDTO product = new ProductDTO(idResult, imageUrl, title, price, kcal, description);
+
+        return new ResponseEntity<>(product, HttpStatus.OK);
+      } else {
+        throw new Exception("Não há produto de id " + id);
+      }
     } catch(Exception error) {
       return new ResponseEntity<>(error.getMessage(), HttpStatus.BAD_REQUEST);
     }

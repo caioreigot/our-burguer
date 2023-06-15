@@ -58,9 +58,9 @@ public class RegisterController {
       
       String encryptedPassword = Utils.encryptInSha256(userDTO.password);
       stmt.setString(5, encryptedPassword);
-
-      int affectedRows = stmt.executeUpdate();
       
+      int affectedRows = stmt.executeUpdate();
+
       if (affectedRows > 0) {
         HashMap<String, String> response = Utils.createHashMap(
           new KeyValue("message", "Usuário cadastrado com sucesso.")

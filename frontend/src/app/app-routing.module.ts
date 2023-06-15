@@ -6,6 +6,7 @@ import { PageNotFoundComponent } from './features/page-not-found/page-not-found.
 import { ForgotMyPasswordComponent } from './features/forgot-my-password/forgot-my-password.component';
 import { CartComponent } from './features/cart/cart.component';
 import { RegisterComponent } from './features/register/register.component';
+import { RedefinePasswordComponent } from './features/redefine-password/redefine-password.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'cart', component: CartComponent },
   { path: 'forgot-password', component: ForgotMyPasswordComponent },
   { path: 'shop-window/:id', component: ShopWindowComponent },
+  { path: 'redefine-password/:id', component: RedefinePasswordComponent },
   { 
     path: '**',
     pathMatch: 'full', 

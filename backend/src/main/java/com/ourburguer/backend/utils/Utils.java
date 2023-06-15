@@ -2,6 +2,7 @@ package com.ourburguer.backend.utils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.security.SecureRandom;
 import java.util.HashMap;
 
 public class Utils {
@@ -26,6 +27,18 @@ public class Utils {
       System.err.println("Ocorreu um erro ao criptografar a senha em SHA-256.");
       return null;
     }
+  }
+
+  public static String randomHexString(int size) {
+    SecureRandom random = new SecureRandom();
+    char[] hexDigits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+    StringBuilder sb = new StringBuilder();
+    
+    for (int i = 0; i < size; i++) {
+      sb.append(hexDigits[random.nextInt(hexDigits.length)]);
+    }
+
+    return sb.toString();
   }
 
   public static HashMap<String, String> createHashMap(KeyValue... kv) {

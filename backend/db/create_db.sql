@@ -16,6 +16,12 @@ CREATE TABLE product(
   description TEXT
 );
 
+CREATE TABLE forgotPasswordRoom(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  email varchar(100) NOT NULL,
+  roomId varchar(100) NOT NULL UNIQUE
+);
+
 INSERT INTO product(imageUrl, title, kcal, price, description) VALUES('/assets/Comuna Burguer.png', 'Comuna Burger', 475, 10.00, 'Este hambúrguer é composto por um pão macio e fresquinho, uma suculenta carne bovina, queijo cheddar derretido, cebola caramelizada e um molho especial de maionese com mostarda. Todos os ingredientes são cuidadosamente selecionados para garantir o melhor sabor e qualidade.');
 INSERT INTO product(imageUrl, title, kcal, price, description) VALUES('/assets/Sundae da Coletividade.png', 'Sundae da Coletividade', 325, 7.00, 'Este sundae representa a ideia de que juntos somos mais fortes. É feito com uma bola de sorvete de creme, fatias de banana fresca, calda de caramelo quente e chantilly. Todos os ingredientes são cuidadosamente selecionados para oferecer uma sobremesa deliciosa e compartilhável.');
 INSERT INTO product(imageUrl, title, kcal, price, description) VALUES('/assets/Igualdade Burguer.png', 'Igualdade Burger', 530, 12.00, 'Este hambúrguer é um verdadeiro exemplo da colaboração entre todos os membros da comunidade. Ele é feito com um pão artesanal crocante, carne bovina suculenta, alface fresca, tomate maduro e um molho especial de maionese com ervas finas. Cada ingrediente é escolhido com cuidado e amor para oferecer um sabor incrível.');

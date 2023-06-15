@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ConnectionFactory {
+public abstract class ConnectionFactory {
 
   public static Connection connect() {
     try {

@@ -12,6 +12,7 @@ import { CartComponent } from './features/cart/cart.component';
 import { UseInputValueOnEnterDirective } from './directives/use-input-value-on-enter.directive';
 import { RegisterComponent } from './features/register/register.component';
 import { BaseUrlHttpInterceptor } from './interceptors/BaseUrlHttpInterceptor';
+import { RedefinePasswordComponent } from './features/redefine-password/redefine-password.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { BaseUrlHttpInterceptor } from './interceptors/BaseUrlHttpInterceptor';
     ForgotMyPasswordComponent,
     CartComponent,
     UseInputValueOnEnterDirective,
-    RegisterComponent
+    RegisterComponent,
+    RedefinePasswordComponent
   ],
   imports: [
     BrowserModule,

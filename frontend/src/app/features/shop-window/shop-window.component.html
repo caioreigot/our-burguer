@@ -12,7 +12,7 @@
         <img routerLink="/cart" class="cart" src="assets/cart.svg" />
         <img class="profile-pic"
           routerLink="/"
-          (click)="localStorageService.clearToken()"
+          (click)="logout()"
           src="assets/user-circle-outline.svg" />
         <h2 class="username">{{ localStorageService.getName() }}</h2>
       </div>
