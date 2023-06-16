@@ -30,12 +30,15 @@ public class ProductController {
   @GetMapping("list")
   @ResponseBody
   public ResponseEntity<?> list() {
+    Connection con = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+
     try {
-      Connection con = ConnectionFactory.connect();
-      PreparedStatement stmt;
+      con = ConnectionFactory.connect();
 
       stmt = con.prepareStatement("SELECT * FROM product");
-      ResultSet rs = stmt.executeQuery();
+      rs = stmt.executeQuery();
 
       List<ProductDTO> products = new ArrayList<>();
       
@@ -55,36 +58,41 @@ public class ProductController {
       return new ResponseEntity<>(products, HttpStatus.OK);
     } catch(Exception error) {
       return new ResponseEntity<>(error.getMessage(), HttpStatus.BAD_REQUEST);
+    } finally {
+      ConnectionFactory.closeConnection(con, stmt, rs);
     }
   }
 
   @GetMapping("{id}")
   @ResponseBody
   public ResponseEntity<?> getById(@PathVariable int id) {
-    try {
-      Connection con = ConnectionFactory.connect();
-      PreparedStatement stmt;
+    Connection con = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
 
+    try {
+      con = ConnectionFactory.connect();
       stmt = con.prepareStatement("SELECT * FROM product WHERE id = ?");
       stmt.setInt(1, id);
-      ResultSet rs = stmt.executeQuery();
-      
-      if (rs.next()) {
-        int idResult = rs.getInt(1);
-        String imageUrl = rs.getString("imageUrl");
-        String title = rs.getString("title");
-        int kcal = rs.getInt("kcal");
-        float price = rs.getFloat("price");
-        String description = rs.getString("description");
+      rs = stmt.executeQuery();
 
-        ProductDTO product = new ProductDTO(idResult, imageUrl, title, price, kcal, description);
-
-        return new ResponseEntity<>(product, HttpStatus.OK);
-      } else {
+      if (!rs.next()) {
         throw new Exception("Não há produto de id " + id);
       }
+      
+      int idResult = rs.getInt(1);
+      String imageUrl = rs.getString("imageUrl");
+      String title = rs.getString("title");
+      int kcal = rs.getInt("kcal");
+      float price = rs.getFloat("price");
+      String description = rs.getString("description");
+
+      ProductDTO product = new ProductDTO(idResult, imageUrl, title, price, kcal, description);
+      return new ResponseEntity<>(product, HttpStatus.OK);
     } catch(Exception error) {
       return new ResponseEntity<>(error.getMessage(), HttpStatus.BAD_REQUEST);
+    } finally {
+      ConnectionFactory.closeConnection(con, stmt, rs);
     }
   }
 }

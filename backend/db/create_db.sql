@@ -2,7 +2,7 @@ CREATE TABLE user(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name varchar(100) NOT NULL,
   email varchar(100) NOT NULL UNIQUE,
-  cpf varchar(50) UNIQUE,
+  address varchar(100) NOT NULL,
   phone varchar(50),
   encryptedPassword TEXT NOT NULL
 );
@@ -20,6 +20,23 @@ CREATE TABLE forgotPasswordRoom(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   email varchar(100) NOT NULL,
   roomId varchar(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE cart(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  idUser INTEGER NOT NULL,
+  total DECIMAL(10, 2) NOT NULL,
+  status varchar(20) NOT NULL,
+  FOREIGN KEY(idUser) REFERENCES user(id)
+);
+
+CREATE TABLE cartItem(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  idCart INTEGER NOT NULL,
+  itemName varchar(100) NOT NULL,
+  amount INTEGER NOT NULL,
+  price DECIMAL(10, 2) NOT NULL,
+  FOREIGN KEY(idCart) REFERENCES cart(id)
 );
 
 INSERT INTO product(imageUrl, title, kcal, price, description) VALUES('/assets/Comuna Burguer.png', 'Comuna Burger', 475, 10.00, 'Este hambúrguer é composto por um pão macio e fresquinho, uma suculenta carne bovina, queijo cheddar derretido, cebola caramelizada e um molho especial de maionese com mostarda. Todos os ingredientes são cuidadosamente selecionados para garantir o melhor sabor e qualidade.');

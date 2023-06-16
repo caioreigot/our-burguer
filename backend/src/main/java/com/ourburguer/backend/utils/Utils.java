@@ -3,7 +3,6 @@ package com.ourburguer.backend.utils;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
-import java.util.HashMap;
 
 public class Utils {
 
@@ -39,15 +38,5 @@ public class Utils {
     }
 
     return sb.toString();
-  }
-
-  public static HashMap<String, String> createHashMap(KeyValue... kv) {
-    HashMap<String, String> hashMap = new HashMap<String, String>();
-
-    for (KeyValue current : kv) {
-      hashMap.put(current.key, current.value);
-    }
-
-    return hashMap;
   }
 }

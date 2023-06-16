@@ -20,7 +20,7 @@ public abstract class ConnectionFactory {
 
   public static void closeConnection(Connection connection) {
     try {
-      if (!connection.isClosed()) {
+      if (connection != null && !connection.isClosed()) {
         connection.close();
       }
     } catch (SQLException err) {

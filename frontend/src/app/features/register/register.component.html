@@ -5,7 +5,7 @@
     email.value,
     password.value,
     confirmPassword.value,
-    cpf.value,
+    address.value,
     phone.value
   )"
 >
@@ -41,10 +41,10 @@
   </div>
 
   <div>
-    <label for="cpf">
-      CPF:
+    <label for="address">
+      Endereço para entrega:
     </label>
-    <input #cpf id="cpf" type="text" [pattern]="cpfPattern" required>
+    <input #address id="address" type="text" required>
   </div>
 
   <div>

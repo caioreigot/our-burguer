@@ -4,7 +4,7 @@ public class UserDTO {
 
   public String name;
   public String email;
-  public String cpf;
+  public String address;
   public String phone;
   public String password;
 
@@ -21,18 +21,18 @@ public class UserDTO {
     this.password = password;
   }
 
-  public UserDTO(String name, String email, String password, String cpf) {
+  public UserDTO(String name, String email, String password, String address) {
     this.name = name;
     this.email = email;
     this.password = password;
-    this.cpf = cpf;
+    this.address = address;
   }
 
-  public UserDTO(String name, String email, String password, String cpf, String phone) {
+  public UserDTO(String name, String email, String password, String address, String phone) {
     this.name = name;
     this.email = email;
     this.password = password;
-    this.cpf = cpf;
+    this.address = address;
     this.phone = phone;
   }
 }

@@ -7,13 +7,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +33,6 @@ import com.ourburguer.backend.dto.ChangePasswordDTO;
 import com.ourburguer.backend.dto.ForgotPasswordDTO;
 import com.ourburguer.backend.dto.UserDTO;
 import com.ourburguer.backend.infra.ConnectionFactory;
-import com.ourburguer.backend.utils.KeyValue;
 import com.ourburguer.backend.utils.Utils;
 
 @CrossOrigin(
@@ -54,40 +50,45 @@ public class AuthController {
   @PostMapping
   @ResponseBody
   public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
+    Connection con = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+
     try {
-      Connection con = ConnectionFactory.connect();
+      con = ConnectionFactory.connect();
 
-      PreparedStatement stmt = con.prepareStatement(
-        "SELECT * FROM user WHERE email = ?"
-      );
-
+      stmt = con.prepareStatement("SELECT * FROM user WHERE email = ?");
       stmt.setString(1, userDTO.email);
-      ResultSet rs = stmt.executeQuery();
+      rs = stmt.executeQuery();
 
-      if (rs.next()) {
-        String encryptedPassword = rs.getString("encryptedPassword");
-        String name = rs.getString("name");
+      if (!rs.next()) {
+        throw new Exception("E-mail e/ou senha errados.");
+      }
 
-        if (encryptedPassword.equals(Utils.encryptInSha256(userDTO.password))) {
-          String token = JWT.create()
-            .withClaim("name", name)
-            .withIssuer(this.JWT_ISSUER)
-            .sign(this.JWT_ALG);
+      String encryptedPassword = rs.getString("encryptedPassword");
+      String name = rs.getString("name");
+      boolean doHashesMatch = encryptedPassword.equals(Utils.encryptInSha256(userDTO.password));
 
-          HashMap<String, String> response = Utils.createHashMap(
-            new KeyValue("token", token),
-            new KeyValue("name", name)
-          );
+      if (doHashesMatch) {
+        String token = JWT.create()
+          .withClaim("name", name)
+          .withClaim("email", userDTO.email)
+          .withIssuer(this.JWT_ISSUER)
+          .sign(this.JWT_ALG);
 
-          return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-          throw new Exception("E-mail e/ou senha errados.");
-        }
+        String json = new JSONObject()
+          .put("token", token)
+          .put("name", name)
+          .toString();
+
+        return new ResponseEntity<>(json, HttpStatus.OK);
       } else {
         throw new Exception("E-mail e/ou senha errados.");
       }
     } catch(Exception error) {
-      return new ResponseEntity<String>(error.getMessage(), HttpStatus.FORBIDDEN);
+      return new ResponseEntity<>(error.getMessage(), HttpStatus.FORBIDDEN);
+    } finally {
+      ConnectionFactory.closeConnection(con, stmt, rs);
     }
   }
 
@@ -102,35 +103,40 @@ public class AuthController {
       DecodedJWT decodedJWT = verifier.verify(jwt);
       String name = decodedJWT.getClaim("name").asString();
 
-      HashMap<String, String> response = Utils.createHashMap(
-        new KeyValue("name", name)
-      );
+      String json = new JSONObject()
+        .put("name", name)
+        .toString();
       
-      return new ResponseEntity<>(response, HttpStatus.OK);
-    } catch (JWTVerificationException exception){
-      System.out.println(exception.getMessage());
+      return new ResponseEntity<>(json, HttpStatus.OK);
+    } catch (JWTVerificationException err){
+      System.out.println(err.getMessage());
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-
-    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   @PostMapping("forgot-password")
   @ResponseBody 
   public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordDTO forgotPasswordDTO) {
+    Connection con = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+
     try {
-      Connection connection = ConnectionFactory.connect();
-      PreparedStatement stmt = connection.prepareStatement("SELECT * FROM user WHERE email = ?");
+      con = ConnectionFactory.connect();
+
+      stmt = con.prepareStatement("SELECT * FROM user WHERE email = ?");
       stmt.setString(1, forgotPasswordDTO.email);
-      ResultSet result = stmt.executeQuery();
+      rs = stmt.executeQuery();
       
       // Se o e-mail não estiver cadastrado
-      if (!result.next()) {
+      if (!rs.next()) {
         throw new Exception("E-mail não cadastrado.");
       }
 
       String randomHex = Utils.randomHexString(40);
 
-      stmt = connection.prepareStatement("INSERT INTO forgotPasswordRoom(email, roomId) VALUES(?, ?)");
+      ConnectionFactory.closeConnection(null, stmt, rs);
+      stmt = con.prepareStatement("INSERT INTO forgotPasswordRoom(email, roomId) VALUES(?, ?)");
       stmt.setString(1, forgotPasswordDTO.email);
       stmt.setString(2, randomHex);
 
@@ -162,43 +168,53 @@ public class AuthController {
       String response = restTemplate.postForObject(url, request, String.class);
       System.out.println(response);
 
-      ConnectionFactory.closeConnection(connection, stmt, result);
       return new ResponseEntity<>(HttpStatus.OK);
     } catch (Exception err) {
       System.err.println(err.getMessage());
       return new ResponseEntity<>(HttpStatus.OK);
+    } finally {
+      ConnectionFactory.closeConnection(con, stmt, rs);
     }
   }
 
   @PostMapping("change-password")
   @ResponseBody 
   public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
+    Connection con = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+
     try {
-      Connection connection = ConnectionFactory.connect();
-      PreparedStatement stmt = connection.prepareStatement("SELECT * FROM forgotPasswordRoom WHERE roomId = ?");
+      con = ConnectionFactory.connect();
+      
+      stmt = con.prepareStatement("SELECT * FROM forgotPasswordRoom WHERE roomId = ?");
       stmt.setString(1, changePasswordDTO.roomId);
-      ResultSet result = stmt.executeQuery();
+      rs = stmt.executeQuery();
 
       // Se não houver salas com o id fornecido, retorna
-      if (!result.next()) {
+      if (!rs.next()) {
         return new ResponseEntity<>(HttpStatus.OK);
       }
 
-      String userEmail = result.getString("email");
-      stmt = connection.prepareStatement("UPDATE user SET encryptedPassword = ? WHERE email = ?");
+      String userEmail = rs.getString("email");
+      
+      ConnectionFactory.closeConnection(null, stmt, rs);
+      stmt = con.prepareStatement("UPDATE user SET encryptedPassword = ? WHERE email = ?");
       stmt.setString(1, Utils.encryptInSha256(changePasswordDTO.newPassword));
       stmt.setString(2, userEmail);
       stmt.executeUpdate();
 
-      stmt = connection.prepareStatement("DELETE FROM forgotPasswordRoom WHERE email = ?");
+      ConnectionFactory.closeConnection(null, stmt, rs);
+      stmt = con.prepareStatement("DELETE FROM forgotPasswordRoom WHERE email = ?");
       stmt.setString(1, userEmail);
       stmt.executeUpdate();
 
-      ConnectionFactory.closeConnection(connection, stmt, result);
       return new ResponseEntity<>(HttpStatus.OK);
     } catch (Exception err) {
       System.err.println(err.getMessage());
       return new ResponseEntity<>(HttpStatus.OK);
+    } finally {
+      ConnectionFactory.closeConnection(con, stmt, rs);
     }
   }
 }

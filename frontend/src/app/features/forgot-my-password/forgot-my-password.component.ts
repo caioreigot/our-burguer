@@ -17,12 +17,11 @@ export class ForgotMyPasswordComponent {
   ) {}
 
   sendEmail(email: string) {
-    // Ve se email.value é um email válido com regex
     if (this.regexEmail.test(email)) {
       this.http.post('auth/forgot-password', { email }).subscribe();
-      this.snackbarService.showMessage('Um e-mail para redefinição de senha foi enviado');
+      this.snackbarService.showMessage('E-mail para redefinição de senha enviado');
     } else {
-      this.snackbarService.showMessage('E-mail inválido', true);
+      this.snackbarService.showMessage('O e-mail fornecido é inválido', true);
     }
   }
 }
